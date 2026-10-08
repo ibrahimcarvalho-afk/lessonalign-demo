@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>LessonAlign — Auditoria detalhada</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f5f7fb}
+*{box-sizing:border-box}body{margin:0}main{max-width:1000px;margin:auto;padding:28px 18px 60px}a{color:inherit}
+.card{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:18px;margin:12px 0;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.badges{display:flex;gap:6px;flex-wrap:wrap}.badge{font-size:12px;border-radius:999px;padding:4px 8px;background:#f2f4f7;color:#344054}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}table{width:100%;border-collapse:collapse}th,td{text-align:left;border-bottom:1px solid #eaecf0;padding:9px;vertical-align:top}
+.muted{color:#667085}.blocking{font-weight:700;color:#912018}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+@media(prefers-color-scheme:dark){:root{color:#f2f4f7;background:#0f1218}.card{background:#171b22;border-color:#2b313b}.badge{background:#252b35;color:#d0d5dd}th,td{border-color:#2b313b}.muted{color:#aab2bf}}
+</style>
+</head>
+<body><main>
+<p><a href="./">← Voltar ao painel</a></p>
+<div id="content"><p>Carregando caso sanitizado…</p></div>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const badge=t=>'<span class="badge">'+esc(t)+'</span>';
+function questions(c){
+ const q=[];
+ const v=c.validity||{};
+ if(v.use_gate==='blocked') q.push({b:true,t:'Qual fonte ou decisão explícita é necessária para remover o bloqueio de uso?'});
+ if(v.documentary_status==='missing'||v.documentary_status==='conflicting') q.push({b:true,t:'Qual documento vigente resolve a lacuna ou conflito documental deste caso?'});
+ else if(v.documentary_status==='partial') q.push({b:false,t:'Que referência documental ainda precisa ser vinculada ou confirmada?'});
+ if(['pending_confirmation','provisional','unknown'].includes(v.temporal_status)) q.push({b:false,t:'A fonte/contexto continua válido para o período de aplicação atual?'});
+ Object.entries(c.alignment||{}).forEach(([k,s])=>{
+   if(s==='gap')q.push({b:true,t:'Que evidência ou elemento explícito é necessário para fechar a lacuna em '+k+'?'});
+   else if(s==='partial')q.push({b:false,t:'O que precisa ser revisado para tornar '+k+' plenamente alinhado?'});
+ });
+ if(['team','section','collective','mixed'].includes(v.evidence_granularity)) q.push({b:false,t:'Como a evidência coletiva será atribuída ao desempenho individual sem inferência automática?'});
+ (c.dependencies||[]).forEach(d=>q.push({b:!!d.blocking,t:'Como será resolvida a dependência: '+d.description}));
+ (c.missing_sources||[]).forEach(s=>q.push({b:v.use_gate==='blocked',t:'Localizar ou confirmar a fonte pendente: '+s}));
+ return q;
+}
+function render(c){
+ const dims=Object.entries(c.alignment||{}).map(([k,v])=>'<tr><td>'+esc(k)+'</td><td>'+esc(v)+'</td><td>Estado registrado no fixture sanitizado.</td></tr>').join('');
+ const deps=(c.dependencies||[]).map(d=>'<li><strong>'+esc(d.kind)+'</strong>: '+esc(d.description)+(d.blocking?' <span class="blocking">(bloqueante)</span>':'')+'</li>').join('')||'<li>Sem dependências abertas.</li>';
+ const miss=(c.missing_sources||[]).map(x=>'<li>'+esc(x)+'</li>').join('')||'<li>—</li>';
+ const qs=questions(c).map(x=>'<li class="'+(x.b?'blocking':'')+'">'+(x.b?'BLOQUEANTE — ':'')+esc(x.t)+'</li>').join('')||'<li>Sem perguntas abertas.</li>';
+ document.title=c.case_id+' — LessonAlign';
+ document.getElementById('content').innerHTML=
+ '<small class="muted">'+esc(c.case_id)+'</small><h1>'+esc(c.title)+'</h1>'+
+ '<div class="badges">'+badge(c.expected_verdict||'sem veredito')+badge(c.validity.use_gate)+badge('doc:'+c.validity.documentary_status)+badge('tempo:'+c.validity.temporal_status)+'</div>'+
+ '<section class="card"><h2>Cadeia de alinhamento registrada</h2><table><thead><tr><th>Dimensão</th><th>Status</th><th>Escopo</th></tr></thead><tbody>'+dims+'</tbody></table><p class="muted">Rastreabilidade em nível de caso. Esta demo não inventa relações, fontes ou páginas ausentes.</p></section>'+
+ '<div class="grid"><section class="card"><h2>Validade</h2><ul><li>Documental: <strong>'+esc(c.validity.documentary_status)+'</strong></li><li>Temporal: <strong>'+esc(c.validity.temporal_status)+'</strong></li><li>Fechamento: <strong>'+esc(c.validity.closure_level)+'</strong></li><li>Escopo: <strong>'+esc(c.validity.closure_scope)+'</strong></li><li>Granularidade: <strong>'+esc(c.validity.evidence_granularity)+'</strong></li></ul></section><section class="card"><h2>Dependências abertas</h2><ul>'+deps+'</ul></section></div>'+
+ '<section class="card"><h2>Fontes pendentes</h2><ul>'+miss+'</ul></section>'+
+ '<section class="card"><h2>Perguntas de revisão</h2><ul>'+qs+'</ul></section>'+
+ '<section class="card"><h2>Histórico de decisão</h2><p>Não conectado nesta demonstração pública read-only.</p></section>';
+}
+const id=new URLSearchParams(location.search).get('id');
+fetch('cases.json').then(r=>r.json()).then(all=>{
+ const c=all.find(x=>x.case_id===id);
+ if(!c){document.getElementById('content').innerHTML='<h1>Caso não encontrado</h1><p>Use o painel para selecionar um fixture PUBLIC-*.</p>';return;}
+ render(c);
+}).catch(()=>{document.getElementById('content').innerHTML='<h1>Falha ao carregar</h1><p>Não foi possível carregar os casos sanitizados.</p>';});
+</script>
+</main></body></html>
