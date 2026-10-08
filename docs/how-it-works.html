@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>LessonAlign — Como funciona</title>
+<style>
+:root{font-family:Inter,system-ui,sans-serif;color:#172033;background:#f5f7fb}*{box-sizing:border-box}body{margin:0}main{max-width:980px;margin:auto;padding:28px 18px 60px}
+a{color:inherit}.card{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:18px;margin:12px 0}.chain{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.node{border:1px solid #d0d5dd;border-radius:12px;padding:12px;background:#fafafa}
+.ok{border-color:#8fd3a8}.gap{border-color:#f4a6a0}.muted{color:#667085}.pill{display:inline-block;border-radius:999px;background:#eef2ff;padding:4px 8px;font-size:12px;margin-right:6px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px;border-bottom:1px solid #eaecf0;vertical-align:top}
+@media(max-width:760px){.chain{grid-template-columns:1fr}}@media(prefers-color-scheme:dark){:root{color:#f2f4f7;background:#0f1218}.card,.node{background:#171b22;border-color:#2b313b}.muted{color:#aab2bf}th,td{border-color:#2b313b}.pill{background:#252b35}}
+</style>
+</head><body><main>
+<p><a href="./">← Voltar ao painel</a> · <a href="glossary.html">Glossário</a></p>
+<h1>Como o LessonAlign funciona</h1>
+<p class="muted">Exemplo totalmente fictício, criado apenas para demonstrar a lógica do produto. Não deriva de corpus real.</p>
+
+<section class="card">
+<h2>Intenção pedagógica fictícia</h2>
+<p><strong>Objetivo:</strong> avaliar a confiabilidade de duas fontes sobre um mesmo evento, justificando a decisão com critérios explícitos.</p>
+<div class="chain">
+<div class="node ok"><strong>Objetivo</strong><br>Avaliar confiabilidade</div>
+<div class="node ok"><strong>Conteúdo</strong><br>autoria, contexto, corroboração</div>
+<div class="node ok"><strong>Atividade</strong><br>comparar duas fontes fictícias</div>
+<div class="node ok"><strong>Evidência</strong><br>quadro comparativo justificado</div>
+<div class="node ok"><strong>Avaliação</strong><br>rubrica baseada nos critérios</div>
+</div>
+</section>
+
+<section class="card">
+<h2>O que o motor verifica</h2>
+<table>
+<thead><tr><th>Pergunta</th><th>Exemplo</th></tr></thead>
+<tbody>
+<tr><td>O objetivo está explicitamente ligado ao conteúdo?</td><td>Critérios de confiabilidade apoiam o verbo “avaliar”.</td></tr>
+<tr><td>A atividade permite produzir desempenho observável?</td><td>O aluno compara e justifica, em vez de apenas ouvir exposição.</td></tr>
+<tr><td>A evidência corresponde ao que se pretende observar?</td><td>O quadro comparativo registra a justificativa.</td></tr>
+<tr><td>A avaliação usa a evidência adequada?</td><td>A rubrica verifica os mesmos critérios declarados.</td></tr>
+<tr><td>Há proveniência?</td><td>Fonte e localizador precisam estar registrados; ausência permanece lacuna.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="card">
+<h2>Quando aparece uma lacuna</h2>
+<p>Suponha que o objetivo continue sendo “avaliar”, mas a atividade seja apenas <em>ler silenciosamente as duas fontes</em> e não exista produção observável.</p>
+<div class="chain">
+<div class="node ok"><strong>Objetivo</strong><br>Avaliar confiabilidade</div>
+<div class="node ok"><strong>Conteúdo</strong><br>critérios adequados</div>
+<div class="node gap"><strong>Atividade</strong><br>leitura sem desempenho observável</div>
+<div class="node gap"><strong>Evidência</strong><br>não registrada</div>
+<div class="node gap"><strong>Avaliação</strong><br>não vinculada à evidência</div>
+</div>
+<p>O LessonAlign não cria a atividade ou a evidência por conta própria. Ele registra a lacuna e pode gerar uma <strong>sugestão pending</strong> do tipo “registrar ou vincular explicitamente uma atividade observável”.</p>
+</section>
+
+<section class="card">
+<h2>Decisão humana</h2>
+<p><span class="pill">pending</span><span class="pill">accepted</span><span class="pill">edited</span><span class="pill">rejected</span></p>
+<p>Uma regra ou provider pode apontar o que precisa de revisão, mas não aprova a própria proposta. A decisão pertence ao revisor humano.</p>
+</section>
+
+<section class="card">
+<h2>O que esta demonstração não faz</h2>
+<ul>
+<li>não contém alunos ou notas;</li>
+<li>não usa corpus real;</li>
+<li>não escreve em banco;</li>
+<li>não gera PMS/barema automaticamente;</li>
+<li>não trata SHA-256 como assinatura digital;</li>
+<li>não conclui domínio apenas porque algo foi avaliado.</li>
+</ul>
+</section>
+</main></body></html>
