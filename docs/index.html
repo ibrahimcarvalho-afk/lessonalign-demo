@@ -29,11 +29,11 @@ a{color:inherit}
 </style>
 </head>
 <body><main>
-<header><div><h1>LessonAlign</h1><p class="sub">Demonstração pública e sanitizada do motor de coerência pedagógica. Os casos abaixo preservam apenas a estrutura de decisão; não representam corpus real nem dados operacionais.</p></div><span class="demo">Read-only demo</span></header>
+<header><div><h1>LessonAlign</h1><p class="sub">Demonstração pública e sanitizada do motor de coerência pedagógica. Os casos abaixo preservam apenas a estrutura de decisão; não representam corpus real nem dados operacionais.</p><p><a href="how-it-works.html"><strong>Ver como funciona →</strong></a> · <a href="glossary.html">Glossário</a></p></div><span class="demo">Read-only demo</span></header>
 <div class="summary" id="summary"></div>
 <div class="toolbar"><input id="search" placeholder="Buscar caso, dependência ou status…"><select id="gate"><option value="">Todos os gates</option><option value="blocked">blocked</option><option value="review_required">review_required</option><option value="open">open</option></select></div>
 <div class="grid" id="cards"></div><div class="empty" id="empty">Nenhum caso corresponde aos filtros.</div>
-<p class="foot">Somente fixtures <code>PUBLIC-*</code>. Sem autenticação, sem backend e sem capacidade de mutação. <a href="api/health.json">health</a> · <a href="api/capabilities.json">capabilities</a> · <a href="cases.json">cases.json</a></p>
+<p class="foot"><a href="how-it-works.html">Fluxo fictício completo</a> · <a href="glossary.html">Glossário</a><br><br>Somente fixtures <code>PUBLIC-*</code>. Sem autenticação, sem backend e sem capacidade de mutação. <a href="api/health.json">health</a> · <a href="api/capabilities.json">capabilities</a> · <a href="cases.json">cases.json</a></p>
 <script>
 let cases=[];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
