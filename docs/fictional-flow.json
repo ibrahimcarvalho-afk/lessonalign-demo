@@ -1,0 +1,22 @@
+{
+  "demo_id": "FICTIONAL-FLOW-001",
+  "fictional": true,
+  "title": "Avaliar a confiabilidade de duas fontes",
+  "objective": "Avaliar a confiabilidade de duas fontes sobre um mesmo evento, justificando a decisão com critérios explícitos.",
+  "content": [
+    "autoria",
+    "contexto",
+    "corroboração"
+  ],
+  "activity": "Comparar duas fontes fictícias e justificar diferenças.",
+  "expected_evidence": "Quadro comparativo com justificativa observável.",
+  "assessment": "Rubrica baseada nos critérios declarados.",
+  "provenance_note": "Exemplo inventado para demonstração; não representa documento ou caso real.",
+  "alignment": {
+    "content": "aligned",
+    "activity": "aligned",
+    "evidence": "aligned",
+    "assessment": "aligned"
+  },
+  "suggestion_state": "pending"
+}
